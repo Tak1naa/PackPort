@@ -1,0 +1,5 @@
+#!@PYTHON@
+from packport.application import main
+
+raise SystemExit(main())
+

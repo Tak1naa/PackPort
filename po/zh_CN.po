@@ -1,0 +1,167 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PackPort 0.1.0\n"
+"PO-Revision-Date: 2026-08-27 15:00+0800\n"
+"Last-Translator: PackPort contributors\n"
+"Language-Team: Simplified Chinese\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Fedora package installer"
+msgstr "Fedora 软件包安装器"
+
+msgid "About PackPort"
+msgstr "关于 PackPort"
+
+msgid "Drop packages here"
+msgstr "将软件包拖到这里"
+
+msgid "RPM, DEB, AppImage, Flatpak bundle or Flatpak reference"
+msgstr "支持 RPM、DEB、AppImage、Flatpak bundle 和 Flatpak reference"
+
+msgid "Choose Files…"
+msgstr "选择文件…"
+
+msgid "Installation queue"
+msgstr "安装队列"
+
+msgid "No packages queued"
+msgstr "队列中没有软件包"
+
+msgid "Drop one or more files to begin."
+msgstr "拖入一个或多个文件即可开始。"
+
+msgid "Current transaction"
+msgstr "当前事务"
+
+msgid "Waiting"
+msgstr "等待中"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Show Log"
+msgstr "显示日志"
+
+msgid "Hide Log"
+msgstr "隐藏日志"
+
+msgid "Queued"
+msgstr "已排队"
+
+msgid "Inspecting…"
+msgstr "正在检查…"
+
+msgid "Inspecting {}…"
+msgstr "正在检查 {}…"
+
+msgid "Inspecting {}"
+msgstr "正在检查 {}"
+
+msgid "Awaiting confirmation"
+msgstr "等待确认"
+
+msgid "Unsupported or invalid"
+msgstr "不支持或文件无效"
+
+msgid "Cannot inspect package"
+msgstr "无法检查软件包"
+
+msgid "Review the package before installation. PackPort will never bypass dependency checks."
+msgstr "请在安装前检查软件包。PackPort 绝不会绕过依赖检查。"
+
+msgid "Install {}?"
+msgstr "安装 {}？"
+
+msgid "Skip"
+msgstr "跳过"
+
+msgid "Install"
+msgstr "安装"
+
+msgid "Format"
+msgstr "格式"
+
+msgid "Version"
+msgstr "版本"
+
+msgid "Architecture"
+msgstr "架构"
+
+msgid "Signature"
+msgstr "签名"
+
+msgid "SHA-256"
+msgstr "SHA-256"
+
+msgid "Source"
+msgstr "来源"
+
+msgid "Install scope"
+msgstr "安装范围"
+
+msgid "Current user"
+msgstr "当前用户"
+
+msgid "All users"
+msgstr "所有用户"
+
+msgid "Include Debian maintainer scripts (high risk)"
+msgstr "包含 Debian 维护脚本（高风险）"
+
+msgid "Run Debian maintainer scripts?"
+msgstr "运行 Debian 维护脚本？"
+
+msgid "These scripts were written for Debian and may modify the system as administrator. Continue only if you trust the package publisher."
+msgstr "这些脚本面向 Debian 编写，并可能以管理员身份修改系统。仅在信任软件包发布者时继续。"
+
+msgid "Go Back"
+msgstr "返回"
+
+msgid "Run Scripts and Install"
+msgstr "运行脚本并安装"
+
+msgid "Skipped"
+msgstr "已跳过"
+
+msgid "Installing…"
+msgstr "正在安装…"
+
+msgid "Starting installation of {}"
+msgstr "开始安装 {}"
+
+msgid "Installed"
+msgstr "已安装"
+
+msgid "Failed"
+msgstr "失败"
+
+msgid "Installation failed"
+msgstr "安装失败"
+
+msgid "Cancelling…"
+msgstr "正在取消…"
+
+msgid "Close"
+msgstr "关闭"
+
+msgid "A safe drag-and-drop package installer for Fedora."
+msgstr "一款适用于 Fedora 的安全拖放式软件包安装器。"
+
+msgid "Choose packages"
+msgstr "选择软件包"
+
+msgid "Supported packages"
+msgstr "支持的软件包"
+
+msgid "Export Log…"
+msgstr "导出日志…"
+
+msgid "Export transaction log"
+msgstr "导出事务日志"
+
+msgid "Could not export log"
+msgstr "无法导出日志"

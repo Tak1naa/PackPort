@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN" "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+  <vendor>PackPort</vendor>
+  <vendor_url>https://github.com/packport/PackPort</vendor_url>
+  <action id="io.github.packport.PackPort.manage-system-packages">
+    <description>Install a package with PackPort</description>
+    <description xml:lang="zh_CN">使用 PackPort 安装软件包</description>
+    <message>Authentication is required to install this package for the system</message>
+    <message xml:lang="zh_CN">需要认证才能为系统安装此软件包</message>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/packport-helper</annotate>
+    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+  </action>
+</policyconfig>
+

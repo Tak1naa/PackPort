@@ -1,0 +1,10 @@
+PackPort
+Copyright (C) 2026 PackPort contributors
+
+AppImage integration behavior was designed with reference to Gear Lever:
+https://github.com/mijorus/gearlever
+Copyright (C) Gear Lever contributors
+Licensed under GPL-3.0.
+
+No source file from Gear Lever is currently copied verbatim into PackPort.
+

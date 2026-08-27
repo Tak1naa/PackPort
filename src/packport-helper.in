@@ -1,0 +1,172 @@
+#!@PYTHON@
+"""Narrow privileged helper for PackPort.
+
+This program intentionally has no generic command runner and accepts exactly
+one validated file argument for each supported operation.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+RPM_MAGIC = b"\xed\xab\xee\xdb"
+ELF_MAGIC = b"\x7fELF"
+
+
+def emit(stage: str, fraction: float | None, message: str, cancelable: bool = False) -> None:
+    print(
+        json.dumps(
+            {"stage": stage, "fraction": fraction, "message": message, "cancelable": cancelable},
+            ensure_ascii=False,
+        ),
+        flush=True,
+    )
+
+
+def fail(message: str) -> "NoReturn":
+    print(message, file=sys.stderr, flush=True)
+    raise SystemExit(2)
+
+
+def validate_file(value: str, magic: bytes) -> Path:
+    try:
+        path = Path(value).resolve(strict=True)
+    except (OSError, RuntimeError) as exc:
+        fail(f"Cannot resolve input file: {exc}")
+    if not path.is_file() or path.stat().st_size <= 0:
+        fail("Input must be a non-empty regular file.")
+    try:
+        with path.open("rb") as stream:
+            header = stream.read(max(16, len(magic)))
+    except OSError as exc:
+        fail(f"Cannot read input file: {exc}")
+    if not header.startswith(magic):
+        fail("Input file has an unexpected format.")
+    return path
+
+
+def install_rpm(value: str) -> int:
+    path = validate_file(value, RPM_MAGIC)
+    emit("Resolving RPM dependencies", None, "DNF5 is resolving the transaction")
+    process = subprocess.Popen(
+        ["/usr/bin/dnf5", "install", "--assumeyes", str(path)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        errors="replace",
+        env={"PATH": "/usr/sbin:/usr/bin:/sbin:/bin", "LC_ALL": os.environ.get("LC_ALL", "C.UTF-8")},
+    )
+    assert process.stdout is not None
+    percent = re.compile(r"(?<!\d)(100|[1-9]?\d)(?:\.\d+)?\s*%")
+    for line in process.stdout:
+        clean = line.rstrip()
+        match = percent.search(clean)
+        emit("Installing RPM", float(match.group(1)) / 100 if match else None, clean or "Installing RPM")
+    return process.wait()
+
+
+def digest_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        while chunk := stream.read(1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def safe_name(value: str) -> str:
+    value = re.sub(r"[\x00-\x1f\x7f]", " ", value)
+    value = " ".join(value.split())[:100] or "AppImage"
+    return value
+
+
+def desktop_quote(path: Path) -> str:
+    value = str(path).replace("\\", "\\\\").replace('"', '\\"').replace("%", "%%")
+    return f'"{value}"'
+
+
+def integrate_appimage(value: str) -> int:
+    source = validate_file(value, ELF_MAGIC)
+    with source.open("rb") as stream:
+        header = stream.read(16)
+    if header[8:11] not in (b"AI\x01", b"AI\x02") and source.suffix.lower() != ".appimage":
+        fail("Input ELF is not marked as an AppImage.")
+    digest = digest_file(source)[:16]
+    app_dir = Path("/opt/packport/appimages") / digest
+    desktop_dir = Path("/usr/share/applications")
+    app_dir.mkdir(parents=True, exist_ok=True, mode=0o755)
+    desktop_dir.mkdir(parents=True, exist_ok=True, mode=0o755)
+    target = app_dir / "application.AppImage"
+    display_name = safe_name(source.name.rsplit(".AppImage", 1)[0])
+    desktop_path = desktop_dir / f"io.github.packport.AppImage.{digest}.desktop"
+    partial: Path | None = None
+    desktop_partial: Path | None = None
+    try:
+        emit("Copying AppImage", 0.05, "Copying AppImage for all users")
+        with tempfile.NamedTemporaryFile(prefix=".packport-", dir=app_dir, delete=False) as destination:
+            partial = Path(destination.name)
+            with source.open("rb") as stream:
+                shutil.copyfileobj(stream, destination, length=1024 * 1024)
+            destination.flush()
+            os.fsync(destination.fileno())
+        partial.chmod(0o755)
+        partial.replace(target)
+        partial = None
+        content = (
+            "[Desktop Entry]\n"
+            "Type=Application\n"
+            f"Name={display_name}\n"
+            "Comment=AppImage installed by PackPort\n"
+            f"Exec={desktop_quote(target)}\n"
+            "Icon=application-x-executable\n"
+            "Terminal=false\n"
+            "Categories=Utility;\n"
+            "X-PackPort-Managed=true\n"
+        )
+        with tempfile.NamedTemporaryFile("w", prefix=".packport-", dir=desktop_dir, encoding="utf-8", delete=False) as stream:
+            desktop_partial = Path(stream.name)
+            stream.write(content)
+            stream.flush()
+            os.fsync(stream.fileno())
+        desktop_partial.chmod(0o644)
+        desktop_partial.replace(desktop_path)
+        desktop_partial = None
+    except Exception:
+        if partial:
+            partial.unlink(missing_ok=True)
+        if desktop_partial:
+            desktop_partial.unlink(missing_ok=True)
+        target.unlink(missing_ok=True)
+        desktop_path.unlink(missing_ok=True)
+        raise
+    emit("Integrating AppImage", 1.0, "Desktop launcher created")
+    return 0
+
+
+def main() -> int:
+    if os.geteuid() != 0:
+        fail("packport-helper must be started through Polkit.")
+    parser = argparse.ArgumentParser(prog="packport-helper", allow_abbrev=False)
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    rpm = subparsers.add_parser("install-rpm", allow_abbrev=False)
+    rpm.add_argument("path")
+    appimage = subparsers.add_parser("integrate-appimage", allow_abbrev=False)
+    appimage.add_argument("path")
+    args = parser.parse_args()
+    if args.command == "install-rpm":
+        return install_rpm(args.path)
+    if args.command == "integrate-appimage":
+        return integrate_appimage(args.path)
+    fail("Unsupported operation.")
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
