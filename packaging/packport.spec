@@ -3,7 +3,7 @@ Version:        0.1.0
 Release:        1%{?dist}
 Summary:        Safe drag-and-drop package installer for Fedora
 License:        GPL-3.0-or-later
-URL:            https://github.com/packport/PackPort
+URL:            https://github.com/Tak1naa/PackPort
 Source0:        %{name}-%{version}.tar.gz
 BuildArch:      noarch
 
@@ -43,7 +43,7 @@ appstreamcli validate --no-net %{buildroot}%{_metainfodir}/io.github.packport.Pa
 
 %files -f packport.lang
 %license LICENSE
-%doc README.md README.zh-CN.md README.en.md NOTICE
+%doc README.md README.zh-CN.md README.en.md CONTRIBUTING.md ROADMAP.md SECURITY.md NOTICE
 %{_bindir}/packport
 %{_libexecdir}/packport-helper
 %{python3_sitelib}/packport/

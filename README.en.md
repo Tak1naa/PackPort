@@ -2,6 +2,20 @@
 
 PackPort is a native Fedora desktop installer for local Linux packages. Drop a package onto the window, review what will happen, choose the installation scope, and follow the transaction progress without opening a terminal.
 
+[![CI](https://github.com/Tak1naa/PackPort/actions/workflows/ci.yml/badge.svg)](https://github.com/Tak1naa/PackPort/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Tak1naa/PackPort)](https://github.com/Tak1naa/PackPort/releases/latest)
+[![License](https://img.shields.io/badge/license-GPL--3.0--or--later-blue)](LICENSE)
+
+## Screenshots
+
+| Drag and drop | Package details |
+| --- | --- |
+| ![Drag packages into PackPort](docs/screenshots/drag-and-drop.png) | ![Review package metadata before installation](docs/screenshots/package-details.png) |
+
+| Permission confirmation | Installation progress |
+| --- | --- |
+| ![Confirm a high-risk privileged installation](docs/screenshots/permission-confirmation.png) | ![Follow installation progress and transaction logs](docs/screenshots/installation-progress.png) |
+
 ## Supported formats
 
 - `.rpm`: installed with DNF5 after checking RPM metadata, architecture, and signature status.
@@ -14,10 +28,11 @@ Archives and unknown formats are not force-installed. DEB conversion cannot guar
 
 ## Installation
 
-Fedora 43 x86_64 RPM:
+Download the RPM and `SHA256SUMS` from the [v0.1.0 release](https://github.com/Tak1naa/PackPort/releases/tag/v0.1.0), then run:
 
 ```sh
-sudo dnf install ./dist/packport-0.1.0-1.fc43.noarch.rpm
+sha256sum --check SHA256SUMS
+sudo dnf install ./packport-0.1.0-1.fc43.noarch.rpm
 ```
 
 Launch it from the application menu or run:
@@ -73,4 +88,6 @@ Cancellation is disabled once DNF enters the transaction commit phase, avoiding 
 PackPort is licensed under GPL-3.0-or-later. The AppImage integration design was informed by [Gear Lever](https://github.com/mijorus/gearlever); attribution and license information are in [`NOTICE`](NOTICE).
 
 PackPort currently does not provide an app store, online search, update management, Snap support, or installation of generic archives.
+
+See the public [`ROADMAP.md`](ROADMAP.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md) for planned maintenance and contribution instructions.
 

@@ -151,7 +151,7 @@ class PackPortWindow(Adw.ApplicationWindow):
             version=__version__,
             developer_name="PackPort contributors",
             license_type=Gtk.License.GPL_3_0,
-            website="https://github.com/packport/PackPort",
+            website="https://github.com/Tak1naa/PackPort",
             comments=_("A safe drag-and-drop package installer for Fedora."),
         )
         dialog.present(self)

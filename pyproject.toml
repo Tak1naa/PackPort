@@ -12,5 +12,5 @@ license = { text = "GPL-3.0-or-later" }
 authors = [{ name = "PackPort contributors" }]
 
 [project.urls]
-Homepage = "https://github.com/packport/PackPort"
+Homepage = "https://github.com/Tak1naa/PackPort"
 

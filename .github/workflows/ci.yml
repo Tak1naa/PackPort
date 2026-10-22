@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Fedora 43 / Meson
+    runs-on: ubuntu-latest
+    container: fedora:43
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install build and validation tools
+        run: >-
+          dnf --assumeyes install
+          appstream
+          desktop-file-utils
+          gettext
+          libxml2
+          meson
+          ninja-build
+          python3
+
+      - name: Configure
+        run: meson setup build --werror
+
+      - name: Compile
+        run: meson compile -C build
+
+      - name: Run Meson tests
+        run: meson test -C build --print-errorlogs
+
+      - name: Run basic static checks
+        run: |
+          python3 -m compileall -q src tests tools
+          desktop-file-validate data/io.github.packport.PackPort.desktop
+          appstreamcli validate --no-net data/io.github.packport.PackPort.metainfo.xml
+          xmllint --noout data/io.github.packport.PackPort.metainfo.xml
+          xmllint --noout data/io.github.packport.PackPort.policy
+          xmllint --noout data/io.github.packport.PackPort.xml
+          msgfmt --check --check-accelerators=_ --output-file=/dev/null po/zh_CN.po

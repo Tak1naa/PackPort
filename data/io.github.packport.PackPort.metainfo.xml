@@ -9,16 +9,38 @@
   <developer id="io.github.packport">
     <name>PackPort contributors</name>
   </developer>
-  <url type="homepage">https://github.com/packport/PackPort</url>
-  <url type="bugtracker">https://github.com/packport/PackPort/issues</url>
+  <url type="homepage">https://github.com/Tak1naa/PackPort</url>
+  <url type="bugtracker">https://github.com/Tak1naa/PackPort/issues</url>
   <description>
     <p>PackPort inspects and installs RPM, DEB, AppImage, Flatpak bundle, and Flatpak reference files through a single drag-and-drop interface.</p>
     <p xml:lang="zh-CN">PackPort 通过统一的拖放界面检查并安装 RPM、DEB、AppImage、Flatpak bundle 和 Flatpak reference 文件。</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source" width="1620" height="1576">https://raw.githubusercontent.com/Tak1naa/PackPort/main/docs/screenshots/installation-progress.png</image>
+      <caption>Follow installation progress and transaction logs</caption>
+      <caption xml:lang="zh-CN">查看安装进度与事务日志</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1620" height="1500">https://raw.githubusercontent.com/Tak1naa/PackPort/main/docs/screenshots/drag-and-drop.png</image>
+      <caption>Drop one or more packages into the installation queue</caption>
+      <caption xml:lang="zh-CN">将一个或多个软件包拖入安装队列</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1620" height="1500">https://raw.githubusercontent.com/Tak1naa/PackPort/main/docs/screenshots/package-details.png</image>
+      <caption>Review package details, risk, and installation scope</caption>
+      <caption xml:lang="zh-CN">检查软件包详情、风险和安装范围</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1620" height="1500">https://raw.githubusercontent.com/Tak1naa/PackPort/main/docs/screenshots/permission-confirmation.png</image>
+      <caption>Confirm high-risk Debian maintainer scripts separately</caption>
+      <caption xml:lang="zh-CN">单独确认高风险 Debian 维护脚本</caption>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">io.github.packport.PackPort.desktop</launchable>
   <provides><binary>packport</binary></provides>
   <content_rating type="oars-1.1" />
   <releases>
-    <release version="0.1.0" date="2026-08-27" />
+    <release version="0.1.0" date="2026-10-22" />
   </releases>
 </component>

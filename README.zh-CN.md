@@ -2,6 +2,20 @@
 
 PackPort 是一个面向 Fedora 的原生桌面软件包安装器。将软件包拖入窗口，检查安装信息，选择安装范围，然后查看安装进度，无需打开终端。
 
+[![CI](https://github.com/Tak1naa/PackPort/actions/workflows/ci.yml/badge.svg)](https://github.com/Tak1naa/PackPort/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Tak1naa/PackPort)](https://github.com/Tak1naa/PackPort/releases/latest)
+[![License](https://img.shields.io/badge/license-GPL--3.0--or--later-blue)](LICENSE)
+
+## 软件截图
+
+| 拖拽安装 | 软件包详情 |
+| --- | --- |
+| ![将软件包拖入 PackPort](docs/screenshots/drag-and-drop.png) | ![安装前检查软件包元数据](docs/screenshots/package-details.png) |
+
+| 权限确认 | 安装进度 |
+| --- | --- |
+| ![确认高风险提权安装](docs/screenshots/permission-confirmation.png) | ![查看安装进度与事务日志](docs/screenshots/installation-progress.png) |
+
 ## 支持格式
 
 - `.rpm`：使用 DNF5 安装，并检查 RPM 元数据、架构和签名。
@@ -14,10 +28,11 @@ PackPort 是一个面向 Fedora 的原生桌面软件包安装器。将软件包
 
 ## 安装
 
-Fedora 43 x86_64 RPM：
+从 [v0.1.0 Release](https://github.com/Tak1naa/PackPort/releases/tag/v0.1.0) 下载 RPM 与 `SHA256SUMS`，然后执行：
 
 ```sh
-sudo dnf install ./dist/packport-0.1.0-1.fc43.noarch.rpm
+sha256sum --check SHA256SUMS
+sudo dnf install ./packport-0.1.0-1.fc43.noarch.rpm
 ```
 
 安装后可从应用菜单启动，或运行：
@@ -73,4 +88,6 @@ DNF 进入事务提交阶段后不可取消，以避免破坏 RPM 数据库。�
 PackPort 使用 GPL-3.0-or-later。AppImage 集成的设计参考了 [Gear Lever](https://github.com/mijorus/gearlever)，归属和许可信息见 [`NOTICE`](NOTICE)。
 
 PackPort 当前不包含软件商店、在线搜索、更新管理、Snap 或通用归档包安装功能。
+
+后续维护计划和参与方式见 [`ROADMAP.md`](ROADMAP.md) 与 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
 

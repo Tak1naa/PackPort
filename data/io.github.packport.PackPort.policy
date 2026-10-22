@@ -2,7 +2,7 @@
 <!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN" "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
 <policyconfig>
   <vendor>PackPort</vendor>
-  <vendor_url>https://github.com/packport/PackPort</vendor_url>
+  <vendor_url>https://github.com/Tak1naa/PackPort</vendor_url>
   <action id="io.github.packport.PackPort.manage-system-packages">
     <description>Install a package with PackPort</description>
     <description xml:lang="zh_CN">使用 PackPort 安装软件包</description>
